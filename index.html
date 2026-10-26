@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waleed Malik — Children's Book Illustrator | Picture Books, Comics &amp; Characters</title>
+  <meta name="description" content="Waleed Malik is a children's book illustrator creating warm picture-book spreads, comics, lovable characters, book covers and storybook maps. Sketch approval at every step and print-ready KDP files. Hire on Upwork.">
+  <meta name="theme-color" content="#0b0f1e">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Waleed Malik — Children's Book Illustrator">
+  <meta property="og:description" content="Picture books, comics & characters that children want to step inside. Print-ready files, available on Upwork.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Waleed Malik">
+  <!-- REPLACE after publishing: put the full address in og:url / canonical and use a full URL for the images
+       (social sites need e.g. https://your-site.netlify.app/images/og-image.jpg). See README.md → "Publish". -->
+  <!-- <meta property="og:url" content="https://your-site.netlify.app/"> <link rel="canonical" href="https://your-site.netlify.app/"> -->
+  <meta property="og:site_name" content="Waleed Malik — Children's Book Illustration">
+  <meta property="og:image" content="images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Waleed Malik, children's book illustrator: a storybook portfolio among picture-book, comic and character illustrations on a midnight-blue background">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Waleed Malik — Children's Book Illustrator">
+  <meta name="twitter:description" content="Picture books, comics & characters that children want to step inside. Print-ready files, available on Upwork.">
+  <meta name="twitter:image" content="images/og-image.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Waleed Malik","jobTitle":"Children's book illustrator","description":"Children's book illustrator for picture books, comics, character design, book covers, storybook maps, line art, ink & watercolor and vehicle wraps.","knowsAbout":["Children's book illustration","Comics","Character design","Book cover design","Map illustration","Line art & sketch","Ink & watercolor illustration","Vehicle wrap & decal design"],"sameAs":["https://www.upwork.com/freelancers/~017a65fa7e10d206ea"]}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f1e'/%3E%3Cpath d='M14 18l7 28 11-22 11 22 7-28' fill='none' stroke='%23d8b46a' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>document.documentElement.className = 'js' + (matchMedia('(prefers-reduced-motion: reduce)').matches ? ' reduce' : '') + (/[?&]no3d/.test(location.search) ? ' no3d' : '');</script>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- 0. PRELOADER — a small 3D book opens and its pages flip while the real load % counts up -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-book">
+      <div class="ld-back"></div>
+      <div class="ld-leaf" style="--i:3"></div><div class="ld-leaf" style="--i:2"></div><div class="ld-leaf" style="--i:1"></div>
+      <div class="ld-cover" id="ldCover"><span>Waleed<br>Malik</span><i></i><small>Storybook Portfolio</small></div>
+    </div>
+    <p class="ld-num"><span id="ldNum">0</span><small>%</small></p>
+    <p class="ld-step" id="ldStep">Loading</p>
+  </div>
+
+  <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+  <div class="bg-fallback" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label" id="cursorLabel"></span></span><span class="cursor__dot"></span></div>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="brand" href="#home" aria-label="Waleed Malik, back to top">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 18l7 28 11-22 11 22 7-28"/></svg>
+        <span class="brand__name">Waleed Malik</span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Main"></nav>
+      <a class="btn btn--gold btn--sm magnetic nav__cta" href="#" data-upwork target="_blank" rel="noopener" data-cursor="Upwork">Hire me <span aria-hidden="true">↗</span></a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </header>
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden><nav id="menuLinks" aria-label="Mobile"></nav><a class="btn btn--gold" href="#" data-upwork target="_blank" rel="noopener">Hire me on Upwork <span aria-hidden="true">↗</span></a></div>
+
+  <main id="main">
+    <!-- 1. HERO -->
+    <section class="hero" id="home" aria-labelledby="hero-name">
+      <div class="hero__sticky" data-sticky>
+        <div class="wrap hero__grid">
+          <div class="hero__copy glass">
+            <p class="eyebrow"><span class="dot-live"></span><span id="heroEyebrow"></span></p>
+            <h1 class="hero__name" id="hero-name" data-split></h1>
+            <p class="hero__pos" id="heroPos"></p>
+            <p class="hero__intro" id="heroIntro"></p>
+            <div class="hero__cta">
+              <a class="btn btn--gold magnetic" href="#work" id="ctaWork" data-cursor="View"></a>
+              <a class="btn btn--ghost magnetic" href="#" data-upwork target="_blank" rel="noopener" data-cursor="Upwork"><span id="ctaHire"></span> <span aria-hidden="true">↗</span></a>
+            </div>
+            <dl class="facts" id="heroFacts"></dl>
+          </div>
+          <div class="book-col">
+            <div class="book-stage" id="heroBook" tabindex="0" role="group" aria-roledescription="3D book" aria-label="Storybook portfolio of children's book illustrations and comics. Press Enter or the right arrow key to open it and turn pages, left arrow to go back, Escape to close." data-cursor="Open">
+              <div class="cssbook" aria-hidden="true">
+                <div class="cssbook__spread">
+                  <div class="cssbook__text"></div>
+                  <div class="cssbook__pic"><img alt="" src="images/thumbs/children-01.webp" width="760" height="415" loading="lazy" decoding="async"></div>
+                </div>
+                <div class="cssbook__cover"><img alt="" src="images/thumbs/children-06.webp" width="405" height="619" loading="lazy" decoding="async"><span>Waleed Malik<small>A Storybook Portfolio</small></span></div>
+              </div>
+            </div>
+            <div class="book-ui glass glass--thin">
+              <button type="button" class="round-btn" id="bookPrev" aria-label="Previous page">←</button>
+              <p class="book-cap" id="bookCap" aria-live="polite"></p>
+              <button type="button" class="round-btn" id="bookNext" aria-label="Next page">→</button>
+              <button type="button" class="pill-btn" id="bookOpen">Open the book</button>
+              <button type="button" class="pill-btn" id="bookClose" hidden>Close</button>
+            </div>
+          </div>
+        </div>
+        <p class="scroll-hint" aria-hidden="true"><i></i>Scroll to turn the pages</p>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT ME -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="wrap grid12">
+        <div class="about__visual">
+          <!-- HEADSHOT SLOT: set  headshot: 'images/waleed-headshot.jpg'  in js/config.js and the photo replaces this book
+               (rendered as <figure class="headshot-frame"><img class="headshot" …></figure>). See README.md → "Add your headshot". -->
+          <div class="book-stage book-stage--about" id="aboutBook" aria-hidden="true">
+            <div class="cssbook cssbook--closed"><div class="cssbook__cover"><img alt="" src="images/thumbs/children-06.webp" width="405" height="619" loading="lazy" decoding="async"><span>Waleed Malik<small>A Storybook Portfolio</small></span></div></div>
+          </div>
+        </div>
+        <div class="about__body">
+          <div class="sec-head"><p class="label" id="aboutLabel"></p><h2 class="h2" id="about-title" data-split></h2><p class="sub" id="aboutSub"></p></div>
+          <div class="glass about__bio" id="aboutBio"></div>
+          <div class="about__cols">
+            <div class="glass"><h3 class="h4">What I’m known for</h3><ul class="known" id="knownFor"></ul></div>
+            <div class="glass"><h3 class="h4" id="howTitle"></h3><ol class="how" id="howList"></ol><h3 class="h4 tools-h" id="toolsTitle"></h3><ul class="chips" id="toolsList"></ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SERVICES -->
+    <section class="section services" id="services" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="sec-head"><p class="label" id="servicesLabel"></p><h2 class="h2" id="services-title" data-split></h2><p class="sub" id="servicesSub"></p></div>
+        <div class="svc-grid" id="svcGrid"></div>
+      </div>
+    </section>
+
+    <!-- 4. SELECTED WORK -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="sec-head"><p class="label" id="workLabel"></p><h2 class="h2" id="work-title" data-split></h2><p class="sub" id="workSub"></p></div>
+        <h3 class="mini-label" id="featuredLabel"></h3>
+        <div class="featured" id="featured"></div>
+        <div class="grid-head"><h3 class="mini-label" id="gridLabel"></h3><div class="chips-filter" id="filters" role="toolbar" aria-label="Filter work by discipline"></div></div>
+        <div class="masonry" id="masonry" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 5. PROCESS -->
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="process__sticky" data-sticky>
+        <div class="wrap"><div class="sec-head"><p class="label" id="processLabel"></p><h2 class="h2" id="process-title" data-split></h2><p class="sub" id="processSub"></p></div></div>
+        <div class="process__rail"><div class="process__line" aria-hidden="true"><i id="processFill"></i></div><ol class="process__track" id="processTrack"></ol></div>
+      </div>
+    </section>
+
+    <!-- 6. TOOLS & SKILLS -->
+    <section class="section skills" id="skills" aria-labelledby="skills-title">
+      <div class="wrap">
+        <div class="sec-head"><p class="label" id="skillsLabel"></p><h2 class="h2" id="skills-title" data-split></h2><p class="sub" id="skillsSub"></p></div>
+        <div class="skill-groups" id="skillGroups"></div>
+      </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS -->
+    <section class="section testimonials" id="testimonials" aria-labelledby="t-title">
+      <div class="wrap">
+        <div class="sec-head"><p class="label" id="tLabel"></p><h2 class="h2" id="t-title" data-split></h2><p class="sub" id="tSub"></p></div>
+        <div class="t-slider">
+          <div class="t-track" id="tGrid" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Client reviews — use the arrow keys"></div>
+          <div class="t-nav"><button type="button" class="round-btn" id="tPrev" aria-label="Previous review">←</button><div class="t-dots" id="tDots"></div><span class="t-count" id="tCount" aria-live="polite"></span><button type="button" class="round-btn" id="tNext" aria-label="Next review">→</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FAQ -->
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="wrap grid12">
+        <div class="faq__side">
+          <div class="sec-head faq__head"><p class="label" id="faqLabel"></p><h2 class="h2" id="faq-title" data-split></h2><p class="sub" id="faqSub"></p></div>
+          <div class="faq__aside glass" id="faqAside"></div>
+        </div>
+        <div class="faq__list" id="faqList"></div>
+      </div>
+    </section>
+
+    <!-- 9. CONTACT -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact__grid">
+        <div class="contact__card glass">
+          <p class="label" id="contactLabel"></p>
+          <h2 class="contact__title" id="contact-title" data-split></h2>
+          <p class="contact__text" id="contactText"></p>
+          <a class="btn btn--gold btn--lg magnetic" href="#" data-upwork target="_blank" rel="noopener" data-cursor="Upwork"><span id="contactCta"></span> <span aria-hidden="true">↗</span></a>
+          <ul class="contact__meta"><li><i class="dot-live"></i><span id="cAvail"></span></li><li id="cResp"></li><li id="cRate"></li></ul>
+        </div>
+        <!-- second (closed) book, slowly turning next to the "Hire me" call to action -->
+        <div class="book-stage book-stage--contact" id="contactBook" aria-hidden="true">
+          <div class="cssbook cssbook--closed"><div class="cssbook__cover"><img alt="" src="images/thumbs/children-06.webp" width="405" height="619" loading="lazy" decoding="async"><span>Waleed Malik<small>A Storybook Portfolio</small></span></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 10. FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer__top">
+      <div class="footer__brand">
+        <a class="brand" href="#home" aria-label="Waleed Malik, back to top"><svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 18l7 28 11-22 11 22 7-28"/></svg><span class="brand__name">Waleed Malik</span></a>
+        <p id="footerTag"></p>
+        <a class="btn btn--gold btn--sm" href="#" data-upwork target="_blank" rel="noopener">Hire me on Upwork <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="footer__col" aria-label="Footer"><h3 class="mini-label">Navigate</h3><div id="footNav"></div></nav>
+      <div class="footer__col"><h3 class="mini-label">Disciplines</h3><div id="footCats"></div></div>
+    </div>
+    <div class="wrap footer__bottom"><span>© <span id="year">2026</span> Waleed Malik</span><span>Freelance illustrator · <a href="#" data-upwork target="_blank" rel="noopener">Upwork profile ↗</a></span></div>
+  </footer>
+
+  <!-- SERVICE DETAILS DRAWER (outside <main> so it always sits above the footer) -->
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+    <div class="drawer__scrim" data-close></div>
+    <div class="drawer__panel">
+      <button type="button" class="round-btn drawer__close" data-close aria-label="Close details">✕</button>
+      <div id="drawerBody"></div>
+    </div>
+  </aside>
+
+  <!-- CASE VIEWER -->
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vTitle" hidden>
+    <div class="viewer__stage" id="vStage" data-cursor="Zoom"><img id="vImg" alt="" decoding="async" draggable="false">
+      <div class="viewer__zoom" role="group" aria-label="Zoom"><button type="button" id="vZoomOut" aria-label="Zoom out">−</button><span id="vZoomLevel" aria-live="polite">100%</span><button type="button" id="vZoomIn" aria-label="Zoom in">+</button><button type="button" id="vZoomReset" aria-label="Fit to screen">Fit</button></div>
+      <p class="viewer__hint" aria-hidden="true">Scroll or double-click to zoom · drag to pan · swipe for next</p>
+    </div>
+    <div class="viewer__info glass">
+      <p class="label" id="vCat"></p>
+      <h2 class="viewer__title" id="vTitle"></h2>
+      <dl class="viewer__dl">
+        <div><dt>Brief</dt><dd id="vBrief"></dd></div>
+        <div><dt>My role</dt><dd id="vRole"></dd></div>
+        <div><dt>Deliverables</dt><dd id="vDel"></dd></div>
+        <div><dt>Typical tools</dt><dd id="vTools"></dd></div>
+      </dl>
+      <div class="viewer__nav"><button type="button" class="round-btn" id="vPrev" aria-label="Previous artwork">←</button><span class="viewer__count" id="vCount"></span><button type="button" class="round-btn" id="vNext" aria-label="Next artwork">→</button></div>
+      <a class="btn btn--gold btn--sm" href="#" data-upwork target="_blank" rel="noopener">Hire me for this <span aria-hidden="true">↗</span></a>
+    </div>
+    <button type="button" class="round-btn viewer__close" id="vClose" aria-label="Close viewer">✕</button>
+  </div>
+
+  <noscript>
+    <div class="wrap noscript"><h2>Waleed Malik — Children's Book Illustrator</h2><p>Picture books, comics, characters, book covers &amp; storybook maps. <a href="https://www.upwork.com/freelancers/~017a65fa7e10d206ea">Start your book on Upwork</a>.</p>
+      <div class="noscript__grid"><img src="images/thumbs/children-01.webp" alt="Warm storybook illustration of a girl sharing tea with a badger inside a glowing tree hollow, by Waleed Malik"><img src="images/thumbs/comic-01.webp" alt="Four-panel kids comic strip about sharing cookies, by Waleed Malik"><img src="images/thumbs/character-06.webp" alt="Character line-up of three kids with their bikes, by Waleed Malik"><img src="images/thumbs/cover-01.webp" alt="Illustrated Alice in Wonderland book cover, by Waleed Malik"></div>
+    </div>
+  </noscript>
+
+  <script src="js/config.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <!-- js/vendor/three.min.js, js/scene.js and js/tex-book.js are loaded by main.js when 3D is on -->
+</body>
+</html>

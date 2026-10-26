@@ -1,0 +1,11 @@
+# Netlify: cache settings (used automatically on deploy, including drag-and-drop). Netlify also gzip/brotli-compresses HTML, CSS and JS for you.
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=86400
+/css/*
+  Cache-Control: public, max-age=86400
