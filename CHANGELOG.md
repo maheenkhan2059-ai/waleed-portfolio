@@ -1,8 +1,28 @@
+# Update — office feedback (Oct 2026)
+
+## 1. Third-party trademarked / copyrighted artwork removed
+- Removed 4 artworks completely: the two famous-book covers (cover-01, cover-02) and the two franchise comic images (comic-07, comic-08) — config entries, all 12 image files, alt text, credits and changelog mentions.
+- Hero 3D book: that page is now "The Attic of Old Toys" (sketch-04, Waleed's own line art) with its own story caption. Book textures regenerated.
+- Book Cover Design service card: the 3D book / CSS book cover now uses Waleed's autumn-forest painting (children-06); its film strip, details drawer and 3D page use the same picture. Service texture regenerated.
+- Process step 5 ("Print-ready delivery") now shows children-06.
+- noscript fallback grid: the cover picture replaced with children-02.
+- Social preview (og-image) did not show any removed artwork, so it is unchanged.
+- Hero stat now counts 42 of Waleed's own illustrations (automatic).
+- Safety fix: a service card whose category has no own artwork can no longer freeze the page (film strip loop).
+
+- Also removed the 4 remaining covers by other artists (cover-03 to cover-06) and their 12 image files. Book Covers now has no artwork, so its filter button is hidden; the footer link for it goes to Services, and the Book Cover Design service card stays (showing Waleed's autumn-forest painting).
+
+## 2. New loading screen
+- Replaced the 3D book + 0–100% counter with: "Waleed Malik" in the serif font, the subtitle "Children's Book Illustrator" and a thin gold progress line on the site's dark background.
+- The 3D book is built behind the loading screen, so it turns smoothly as soon as the page appears. The screen goes away as soon as everything is ready, and never later than `loader.maxMs` in js/config.js (default 3000 = 3 seconds; a safety timer guarantees it). Works with ?no3d, reduced motion and on phones (those take about 0.5 s).
+
+---
+
 # Update — October 2026: customised for Waleed (children's book illustrator)
 
 ## 1. Hero / open book
 - Removed every truck (wrap) and map page from the book. The 3D book now has 9 pages on computers and 6 on phones/tablets:
-  Tea in the Glowing Tree · The Cookie Standoff (comic) · River-Stone Adventure · Kids & Bikes (character) · Bedtime by the Moonlit Window · Night Flight Over the City (comic) · Market Day in the Village · Alice in Wonderland (book cover) · One World, Ten Stories.
+  Tea in the Glowing Tree · The Cookie Standoff (comic) · River-Stone Adventure · Kids & Bikes (character) · Bedtime by the Moonlit Window · Night Flight Over the City (comic) · Market Day in the Village · The Attic of Old Toys (line art) · One World, Ten Stories.
   Children's book + comic pages = 7 of 9 on computers, 5 of 6 on phones.
 - Every spread: LEFT page = category, title and a short story-style caption; RIGHT page = the illustration on a cream mat. Wide pictures are trimmed gently around the characters (`fx` in config.js) so faces are never cut.
 - Book cover art changed to the autumn-forest picture-book painting; cover tagline now "Picture books · Comics · Characters · Covers".
@@ -17,14 +37,14 @@
 - Card order puts Children's Books and Comics first. Category names: Comics, Book Cover Design, Line Art & Sketch, Ink & Watercolor.
 
 ## 3. Work / portfolio
-- 50 artworks (44 by Waleed + 6 credited), one category each: Children's 6 · Comics 8 · Characters 6 · Book Covers 6 · Maps 6 · Line Art & Sketch 8 · Ink & Watercolor 2 · Vehicle Wraps 8.
-- New from the attached files: Alice in Wonderland and Coraline covers; 2 comic pages; 6 line-art/coloring pages; 3 vehicle wraps. The autumn-forest painting moved from "Book Covers" (it has no title) to Children's Book Illustration.
+- 42 artworks, all by Waleed, one category each: Children's 6 · Comics 6 · Characters 6 · Book Covers 0 · Maps 6 · Line Art & Sketch 8 · Ink & Watercolor 2 · Vehicle Wraps 8.
+- New from the attached files: 2 comic pages; 6 line-art/coloring pages; 3 vehicle wraps. The autumn-forest painting moved from "Book Covers" (it has no title) to Children's Book Illustration.
 - White margins trimmed from line art; grid tiles keep each picture's real shape (no cropping).
 - Filters verified: every chip shows only its own category.
 - Featured stories: friendship spread, grandfather character, cookie comic strip (the truck case study was replaced).
 
 ## 4. Site-wide image consistency
-- Hero, About and Contact books use the children's-book cover; noscript fallback, social preview image (og-image.jpg, rebuilt) and Process step 5 (now the Alice cover for "Print-ready delivery") all show matching categories.
+- Hero, About and Contact books use the children's-book cover; noscript fallback, social preview image (og-image.jpg, rebuilt) and Process step 5 (now the autumn-forest painting for "Print-ready delivery") all show matching categories.
 - Service-card film strips, drawer examples and case viewer all pull from the corrected category lists.
 
 ## 5. Reviews
@@ -47,22 +67,15 @@
 - Service details drawer moved outside `<main>` so the footer can no longer paint over it.
 
 ## Images still needed
-- Book Cover Design: Waleed's own covers are Alice in Wonderland and Coraline. Send 3–5 more covers he illustrated.
+- Book Cover Design: no covers on the site at the moment (the service card is still there). Send 3–5 covers Waleed illustrated.
 - Ink & Watercolor: only 2 (café ink sketchbook, watercolor workshop); none in this batch. Send 4+ genuine ink / watercolor pieces.
 - Map Illustration and Character Design: nothing new in this batch; the 6 existing site images were kept.
 
-## Credited work (added on request, NOT by Waleed)
-All attached images are now on the site. Six of them belong to other artists, so they are shown with the original artist's credit (coral credit line on the tile, "Credit" in the viewer, no "Hire me for this" button), and they are kept out of the hero book, service cards, drawers and the "illustrations" count:
-- Mommy, Do Trees Talk? — Illustration: Lady Bruniere
-- The Loving Earth — Illustration: Becky Hodgson
-- Millie Fleur's Poison Garden — Illustration: Christy Mandin
-- Utazás Dínómdánomba — Illustration: Judit Kecskés
-- Batman pencils / color — Batman © DC Comics
-- Dispatch key art — Dispatch © AdHoc Studio
-These entries are marked "CREDITED WORK" in js/config.js. If one of them is in fact Waleed's own work, remove its `credit` field and update the alt text. One attachment was an exact duplicate and was skipped.
+## Other artists' work
+- None. Every picture on the site is Waleed's own work (the office asked for no third-party / trademarked material).
 
 ## Tested
-Chromium at 1440×900, 1280×800 (?no3d and reduced motion), 820×1180 tablet, 375×812 phone, and from file://: all pages turn, all 8 filters correct, all 50 full-size images load in the viewer, all 8 drawers open, no horizontal scroll, no console errors or failed requests.
+Chromium at 1440×900, 1280×800 (?no3d and reduced motion), 820×1180 tablet, 375×812 phone, and from file://: all pages turn, all 8 filters correct, all 42 full-size images load in the viewer, all 8 drawers open, no horizontal scroll, no console errors or failed requests.
 
 ---
 

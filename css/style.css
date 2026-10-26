@@ -107,20 +107,17 @@ main { overflow-x: clip; }
 .cursor.is-label .cursor__label { opacity: 1; }
 .cursor.is-label .cursor__dot { opacity: 0; }
 
-/* ---------- preloader: a small 3D book opens, pages flip ---------- */
-.loader { position: fixed; inset: 0; z-index: 500; display: grid; place-content: center; justify-items: center; gap: 18px; background: radial-gradient(600px 400px at 50% 45%, #1a1530, var(--bg) 72%); transition: opacity .7s var(--ease), visibility .7s; }
+/* ---------- loading screen: name, subtitle and a thin gold progress line ---------- */
+.loader { position: fixed; inset: 0; z-index: 500; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 0 24px; text-align: center; background: radial-gradient(600px 400px at 50% 45%, #1a1530, var(--bg) 72%); transition: opacity .5s var(--ease), visibility .5s; }
 .loader.is-done { opacity: 0; visibility: hidden; }
 .no-js .loader { display: none; }
-.ld-book { position: relative; width: 110px; height: 148px; perspective: 800px; transform-style: preserve-3d; transform: rotateX(18deg); }
-.ld-back { position: absolute; inset: 0; border-radius: 3px 8px 8px 3px; background: #5a1f17; box-shadow: 0 24px 40px rgba(0, 0, 0, .5); }
-.ld-leaf { position: absolute; inset: 4px 4px 4px 2px; background: #f1e8d6; border-radius: 2px 6px 6px 2px; transform-origin: 0 50%; transform: rotateY(calc(var(--flip, 0) * -170deg)); transition: transform .5s var(--ease); backface-visibility: visible; box-shadow: inset -6px 0 10px -6px rgba(0, 0, 0, .25); }
-.ld-cover { position: absolute; inset: 0; z-index: 4; border-radius: 3px 8px 8px 3px; background: linear-gradient(135deg, #6b2a1d, #3d140d); border: 1px solid rgba(216, 180, 106, .6); transform-origin: 0 50%; display: grid; place-content: center; justify-items: center; gap: 8px; text-align: center; transition: transform .6s var(--ease); }
-.ld-cover span { font: 600 .95rem/1.05 var(--serif); letter-spacing: .08em; text-transform: uppercase; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.ld-cover i { width: 32px; height: 1px; background: var(--grad); }
-.ld-cover small { font: 700 .38rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: #e8dcc6; }
-.ld-num { margin: 6px 0 0; font: 300 2.6rem/1 var(--serif); color: var(--text); font-variant-numeric: tabular-nums; }
-.ld-num small { font-size: 1rem; color: var(--gold); margin-left: 2px; }
-.ld-step { margin: 0; font: 700 .68rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--text-3); }
+.ld-name { margin: 0; font: 400 clamp(2.2rem, 7vw, 3.6rem)/1 var(--serif); letter-spacing: -.01em; color: var(--text); animation: ldIn .7s var(--ease) both; }
+.ld-sub { margin: 0; font: 700 .68rem/1.4 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: var(--gold); animation: ldIn .7s .08s var(--ease) both; }
+.ld-line { width: min(220px, 60vw); height: 2px; margin-top: 16px; overflow: hidden; border-radius: 2px; background: rgba(216, 180, 106, .16); }
+.ld-line i { display: block; height: 100%; background: var(--grad); transform-origin: 0 50%; transform: scaleX(.06); transition: transform .35s var(--ease); }
+@keyframes ldIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.reduce .ld-name, .reduce .ld-sub { animation: none; }
+.reduce .ld-line i, .reduce .loader { transition: none; }
 
 /* ---------- buttons ---------- */
 .btn { --mx: 0px; --my: 0px; display: inline-flex; align-items: center; justify-content: center; gap: .55em; padding: 1em 1.6em; border-radius: 999px; border: 1px solid transparent; font: 700 .92rem/1 var(--sans); letter-spacing: .01em; text-decoration: none; cursor: pointer; transform: translate(var(--mx), var(--my)); transition: transform .45s var(--ease), box-shadow .3s, background-color .3s, border-color .3s, color .3s; }
@@ -510,7 +507,7 @@ main { overflow-x: clip; }
 }
 @media (prefers-reduced-motion: reduce) { .svc__track { animation: none; } .svc-book__cover { transition: none; } }
 
-/* the nav and page wait (invisible, but laid out) behind the preloader until the web fonts are in, so the font swap never shifts visible layout (CLS) */
+/* the nav and page wait (invisible, but laid out) behind the loading screen until the web fonts are in, so the font swap never shifts visible layout (CLS) */
 .js:not(.fonts-ready):not(.is-revealed) .nav__inner, .js:not(.fonts-ready):not(.is-revealed) main { visibility: hidden; }
 
 /* ---------- Step 5: work, viewer, process ---------- */
@@ -730,3 +727,8 @@ main { overflow-x: clip; }
 /* credited work (pictures by other artists, shown with their credit) */
 .tile__credit { display: block; margin-top: 4px; font: 600 .7rem/1.3 var(--sans); letter-spacing: .04em; color: var(--coral); }
 .viewer.is-credited .viewer__dl > div:nth-child(3), .viewer.is-credited .viewer__dl > div:nth-child(4), .viewer.is-credited .viewer__info > .btn { display: none; }
+
+/* first moment after load, while the 3D book is still being built: show the closed CSS cover in its place */
+.wait3d #heroBook .cssbook { display: block; }
+.wait3d #heroBook .cssbook__spread { display: none; }
+.wait3d #heroBook .cssbook__cover { left: 22%; right: 22%; }

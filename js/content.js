@@ -22,7 +22,7 @@ window.WM_CONTENT = {
     intro: "I paint warm, story-led illustrations for authors, publishers and creators: picture-book spreads, comics, lovable characters, covers and maps. You approve every sketch along the way, and you receive files that are ready for print.",
     ctaWork: 'Open the portfolio',
     ctaHire: 'Start your book on Upwork',
-    facts: [ { value: '8', label: 'disciplines' }, { value: '44', label: 'illustrations', auto: true }, { value: '$20/hr', label: 'on Upwork' }, { value: 'Open', label: 'for new books' } ]
+    facts: [ { value: '8', label: 'disciplines' }, { value: '42', label: 'illustrations', auto: true }, { value: '$20/hr', label: 'on Upwork' }, { value: 'Open', label: 'for new books' } ]
   },
 
   about: {
@@ -102,7 +102,7 @@ window.WM_CONTENT = {
       { n: '02', title: 'Sketch', text: 'Rough sketches lock in composition, characters and page layout. Nothing is painted until you approve them.', img: 'character-05', crop: 'sketch' },
       { n: '03', title: 'Feedback', text: 'Two rounds of revisions per milestone, while changes are still quick and easy.', img: 'sketch-02', crop: 'feedback' },
       { n: '04', title: 'Final art', text: 'Clean line, color and lighting on the approved sketch, with progress updates along the way.', img: 'character-05', crop: 'final' },
-      { n: '05', title: 'Print-ready delivery', text: 'Files prepared for where they will be used: KDP or IngramSpark PDFs with bleed, cover wraps, layered sources and web exports.', img: 'cover-01', crop: 'print' }
+      { n: '05', title: 'Print-ready delivery', text: 'Files prepared for where they will be used: KDP or IngramSpark PDFs with bleed, cover wraps, layered sources and web exports.', img: 'children-06', crop: 'print' }
     ],
     // drag-to-compare card at the end of the process (crops of character-05 and sketch-02, made by hand in images/compare/)
     compare: {

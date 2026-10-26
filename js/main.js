@@ -13,11 +13,12 @@
   var CAT_NAME = {}; CATS.forEach(function (c) { CAT_NAME[c.key] = c.name; });
   // service cards: every discipline has its own visual (see svcVisual below). Only "Book Cover Design" is a book:
   // a real 3D hardcover (WebGL) on desktop, a CSS book elsewhere. Pages = first 3 artworks of the category.
-  var SVC_BOOKS = { cover: { cover: 'cover-01', cloth: 0x1d2a52 } };
+  // cover: the book's cover art · pages: used when the category has none of Waleed's own artworks to show
+  var SVC_BOOKS = { cover: { cover: 'children-06', cloth: 0x1d2a52, pages: ['children-06'] } };
   // the 3D hero book: cover art + pages (keep in step with BOOK in tools/make-textures.py).
   // Mostly children's book spreads and comics; every spread = story text on the LEFT page, illustration on the RIGHT page.
   // Phones show the first 6 pages, desktops all 9 (see three.pagesMobile / pagesDesktop in config.js).
-  var BOOK = { cover: 'children-06', pages: ['children-01', 'comic-01', 'children-02', 'character-06', 'children-05', 'comic-05', 'children-03', 'cover-01', 'children-04'] };
+  var BOOK = { cover: 'children-06', pages: ['children-01', 'comic-01', 'children-02', 'character-06', 'children-05', 'comic-05', 'children-03', 'sketch-04', 'children-04'] };
 
   var root = document.documentElement, Q = new URLSearchParams(location.search);
   var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches, NO3D = Q.has('no3d'), QFULL = Q.get('quality') === 'full';
@@ -56,6 +57,8 @@
   function artsOf(cat) { return cat === 'all' ? ART.slice() : ART.filter(function (a) { return a.cat === cat; }); }
   // Waleed's own work only (items with a "credit" are by other artists: grid + viewer only)
   function ownOf(cat) { return artsOf(cat).filter(function (a) { return !a.credit; }); }
+  // examples for a service card / drawer: Waleed's own work in that category, or the fallback pages set in SVC_BOOKS
+  function examplesOf(cat) { var l = ownOf(cat); if (!l.length && SVC_BOOKS[cat] && SVC_BOOKS[cat].pages) l = SVC_BOOKS[cat].pages.map(function (id) { return ART_BY_ID[id]; }).filter(Boolean); return l; }
   var PH = '<span class="ph-tag">Placeholder</span>', PH_SAMPLE = '<span class="ph-tag">Sample</span>';
   // responsive artwork: WebP (420 / 760 px) with a JPG fallback for browsers without WebP
   function pic(a, sizes, cls, eager) {
@@ -70,7 +73,7 @@
       children: '<div class="sv-story"><div class="sv-story__stack"></div><div class="sv-story__pg sv-story__pg--l">' + sImg('children-02') + '</div><div class="sv-story__pg sv-story__pg--r">' + sImg('children-02') + '</div><i class="sv-story__ribbon"></i></div>',
       comic: '<div class="sv-comic"><div class="sv-comic__page"><span class="sv-comic__p sv-comic__p--a">' + sImg('comic-01') + '</span><span class="sv-comic__p sv-comic__p--b">' + sImg('comic-03') + '</span><span class="sv-comic__p sv-comic__p--c">' + sImg('comic-05') + '</span></div><b class="sv-comic__pow">POW!</b><i class="sv-comic__bubble">Wow!</i></div>',
       character: '<div class="sv-char"><i class="sv-char__glow"></i><i class="sv-char__base"></i><div class="sv-char__spin"><span class="sv-char__card sv-char__card--l">' + sImg('character-04') + '</span><span class="sv-char__card sv-char__card--r">' + sImg('character-01') + '</span><span class="sv-char__card sv-char__card--c">' + sImg('character-06') + '</span></div></div>',
-      cover: '<div class="svc-book"><div class="svc-book__cover">' + sImg('cover-01') + '<b>' + esc(c.short) + '</b></div></div>',
+      cover: '<div class="svc-book"><div class="svc-book__cover">' + sImg('children-06') + '<b>' + esc(c.short) + '</b></div></div>',
       map: '<div class="sv-map"><div class="sv-map__sheet">' + [0, 1, 2, 3].map(function (i) { return '<span class="sv-map__fold" style="--i:' + i + '"></span>'; }).join('') + '</div><svg class="sv-map__pin" viewBox="0 0 24 34"><path d="M12 33C12 33 2 19.5 2 12a10 10 0 0 1 20 0c0 7.5-10 21-10 21z"/><circle cx="12" cy="12" r="4"/></svg><i class="sv-map__pinshadow"></i></div>',
       sketch: '<div class="sv-sketch"><div class="sv-sketch__book"><div class="sv-sketch__page">' + sImg('sketch-04') + '</div><i class="sv-sketch__rings"></i></div>' +
         '<svg class="sv-sketch__pencil" viewBox="0 0 200 22"><path class="pe-wood" d="M28 2 L170 2 L170 20 L28 20 Z"/><path class="pe-band" d="M170 2 L182 2 L182 20 L170 20 Z"/><path class="pe-eraser" d="M182 2 L194 2 Q198 2 198 6 L198 16 Q198 20 194 20 L182 20 Z"/><path class="pe-tip" d="M28 2 L4 11 L28 20 Z"/><path class="pe-lead" d="M10 8.8 L4 11 L10 13.2 Z"/><path class="pe-line" d="M28 11 L170 11"/></svg></div>',
@@ -91,7 +94,7 @@
     set('navLinks', navHtml + '<span class="nav__ind" id="navInd" aria-hidden="true"></span>');
     set('menuLinks', (TXT.nav || []).map(function (n, i) { return '<a href="#' + n.id + '"><i>' + pad(i) + '</i>' + esc(n.label) + '</a>'; }).join(''));
     set('footNav', navHtml);
-    set('footCats', CATS.map(function (c) { return '<a href="#work" data-filter="' + c.key + '">' + esc(c.name) + '</a>'; }).join(''));
+    set('footCats', CATS.map(function (c) { return artsOf(c.key).length ? '<a href="#work" data-filter="' + c.key + '">' + esc(c.name) + '</a>' : '<a href="#services">' + esc(c.name) + '</a>'; }).join(''));   // a discipline with no artwork yet links to Services
     txt('footerTag', (TXT.footer || {}).tagline || '');
 
     var H = TXT.hero || {};
@@ -112,7 +115,7 @@
       var s = SV.items[c.key] || {}, a = artsOf(c.key)[0];
       return '<div class="svc' + (SVC_BOOKS[c.key] ? ' svc--book' : '') + '" tabindex="0" role="button" data-cat="' + c.key + '" aria-label="' + esc(c.name) + ': see details and examples" data-cursor="Open">' +
         '<div class="svc__thumb">' + svcVisual(c.key, c) + '<span class="svc__num">' + pad(i + 1) + '</span></div>' +
-        (function () { var l = ownOf(c.key).slice(0, 4), half = []; while (half.length < 5) half = half.concat(l); var imgs = half.concat(half).map(function (x) { return '<img src="images/thumbs-sm/' + x.id + '.webp" alt="" loading="lazy" decoding="async" width="' + Math.round(46 * x.w / x.h) + '" height="46">'; }).join(''); return '<div class="svc__strip" aria-hidden="true"><div class="svc__track">' + imgs + '</div></div>'; })() +
+        (function () { var l = examplesOf(c.key).slice(0, 4), half = []; if (!l.length) return ''; while (half.length < 5) half = half.concat(l); var imgs = half.concat(half).map(function (x) { return '<img src="images/thumbs-sm/' + x.id + '.webp" alt="" loading="lazy" decoding="async" width="' + Math.round(46 * x.w / x.h) + '" height="46">'; }).join(''); return '<div class="svc__strip" aria-hidden="true"><div class="svc__track">' + imgs + '</div></div>'; })() +
         '<div class="svc__body"><h3>' + esc(c.name) + '</h3><p class="svc__value">' + esc(s.value) + '</p>' +
         '<p class="svc__k">Who it’s for</p><p class="svc__who">' + esc(s.who) + '</p>' +
         '<p class="svc__k">What you get</p><ul>' + (s.get || []).map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' +
@@ -131,7 +134,7 @@
         '<a class="text-link" href="#" data-upwork target="_blank" rel="noopener">Start a similar project ↗</a></div></article>';
     }).join(''));
     set('filters', '<button type="button" class="chip is-on" data-cat="all" aria-pressed="true">All <small>' + ART.length + '</small></button>' +
-      CATS.map(function (c) { return '<button type="button" class="chip" data-cat="' + c.key + '" aria-pressed="false">' + esc(c.short) + ' <small>' + artsOf(c.key).length + '</small></button>'; }).join(''));
+      CATS.filter(function (c) { return artsOf(c.key).length; }).map(function (c) { return '<button type="button" class="chip" data-cat="' + c.key + '" aria-pressed="false">' + esc(c.short) + ' <small>' + artsOf(c.key).length + '</small></button>'; }).join(''));
     // grid in discipline order
     set('masonry', CATS.map(function (c) { return artsOf(c.key); }).reduce(function (a, b) { return a.concat(b); }, []).map(function (a) {
       return '<button type="button" class="tile" data-id="' + a.id + '" data-cat="' + a.cat + '" data-cursor="View">' +
@@ -207,30 +210,26 @@
   $$('.qa button').forEach(function (b) { b.addEventListener('click', function () { var qa = b.closest('.qa'), open = !qa.classList.contains('is-open'); qa.classList.toggle('is-open', open); b.setAttribute('aria-expanded', String(open)); setTimeout(refreshSoft, 550); }); });
 
   /* ======================================================================
-     PRELOADER — real load %, the little book opens and pages flip
+     LOADING SCREEN — a thin gold line fills as the page gets ready, then the screen fades out.
+     It never stays longer than LD_MAX ms: after that the page is shown and the 3D fades in when it is ready.
      ====================================================================== */
   var S = { scroll: window.scrollY || 0, px: 0, py: 0 };
-  var loader = $('#loader'), ldNum = $('#ldNum'), ldStep = $('#ldStep'), ldCover = $('#ldCover'), leaves = $$('.ld-leaf');
-  var tasks = {}, totalW = 0, doneW = 0, shown = 0, finished = false, ldLast = 0;
+  var loader = $('#loader'), ldBar = $('#ldBar'), LD_MAX = (CFG.loader && +CFG.loader.maxMs) || 3000;   // change the number in js/config.js → loader.maxMs
+  var tasks = {}, totalW = 0, doneW = 0, finished = false;
   function task(n, w) { tasks[n] = { w: w, done: false }; totalW += w; }
-  function done(n) { var t = tasks[n]; if (t && !t.done) { t.done = true; doneW += t.w; } }
+  function setBar(p) { if (ldBar) ldBar.style.transform = 'scaleX(' + Math.max(0.06, Math.min(1, p)).toFixed(3) + ')'; }
+  function maybeReveal(force) {
+    if (finished || (!force && doneW < totalW)) return;
+    finished = true; setBar(1); setTimeout(revealPage, REDUCE ? 0 : 150);
+  }
+  function done(n) { var t = tasks[n]; if (t && !t.done) { t.done = true; doneW += t.w; setBar(doneW / totalW); maybeReveal(false); } }
+  // the loading screen waits for the fonts and the 3D book (built behind it), but never longer than LD_MAX
   task('fonts', 2); task('libraries', 1);
   if (USE3D) { task('three', 3); task('book', 4); task('scene', 3); task('tune', 2); }
-  var STEP = { fonts: 'Setting the type', libraries: 'Preparing the motion', three: 'Binding the book', book: 'Printing the pages', scene: 'Lighting the studio', tune: 'Tuning for this screen' };
-  function loaderTick(ts) {
-    var target = (totalW ? doneW / totalW : 1) * 100, ldt = ldLast ? Math.min(0.25, (ts - ldLast) / 1000) : 0.016; ldLast = ts;
-    // time-based easing: the counter catches up in ~0.3 s whatever the frame rate
-    shown += (target - shown) * (1 - Math.exp(-ldt * 12)); if (target - shown < 0.5) shown = target;
-    ldNum.textContent = Math.round(shown);
-    ldCover.style.transform = 'rotateY(' + (-Math.min(1, shown / 25) * 168) + 'deg)';
-    leaves.forEach(function (l, i) { l.style.setProperty('--flip', shown > 40 + i * 20 ? 1 : 0); });
-    var next = Object.keys(tasks).filter(function (k) { return !tasks[k].done; })[0]; ldStep.textContent = next ? STEP[next] : 'Ready';
-    if (shown >= 100 && !finished) { finished = true; setTimeout(revealPage, 150); }
-    if (!finished) requestAnimationFrame(loaderTick);
-  }
-  requestAnimationFrame(loaderTick);
+  // safety timer: the loading screen always goes away within LD_MAX ms of the page starting to load
+  setTimeout(function () { maybeReveal(true); }, Math.max(200, LD_MAX - (window.performance && performance.now ? performance.now() : 0)));
   var fontsP = document.fonts ? Promise.race([Promise.all([document.fonts.load('400 40px Fraunces'), document.fonts.load('600 40px Fraunces'), document.fonts.load('600 16px Manrope')]), new Promise(function (r) { setTimeout(r, 4000); })]) : Promise.resolve();
-  // the page is shown (still behind the preloader) as soon as the fonts are in: no font-swap shift, and the hero text paints early
+  // the page is shown (still behind the loading screen) as soon as the fonts are in: no font-swap shift, and the hero text paints early
   fontsP.then(function () { done('fonts'); root.classList.add('fonts-ready'); }, function () { done('fonts'); root.classList.add('fonts-ready'); });
   done('libraries');
   setTimeout(function () { Object.keys(tasks).forEach(done); }, 15000);
@@ -316,6 +315,7 @@
     btnPrev.disabled = k <= 0; btnNext.disabled = k >= NP;
   }
   function goPage(k) {
+    if (USE3D && !SC && root.classList.contains('wait3d')) return;   // 3D book still getting ready (first moment after load)
     k = clamp(k, 0, NP);
     if (SC) scrollToY(scrollForPage(k) + (k ? 2 : 0));
     else staticPage(k);
@@ -384,8 +384,9 @@
       })
       .then(function () {
         done('scene');
-        // the 1-second benchmark runs behind the preloader; the page reveals once a tier is picked
+        // the 1-second benchmark picks a quality tier (the page may already be visible; the 3D canvas fades in when ready)
         SC.ready().then(function () {
+          setTimeout(function () { root.classList.remove('wait3d'); }, 700);   // the CSS cover stays until the 3D book has faded in
           done('tune'); performance.mark && performance.mark('wm-3d-ready');
           // remaining book pages: download after start-up, then painted one per idle slot
           setTimeout(function () { loadScript('js/tex-book-2.js').then(function () { SC.fillSpreads(); }, function () {}).then(startSvcBooks); }, 400);
@@ -403,19 +404,23 @@
       })
       .catch(function (err) {
         if (window.console) console.info('[3D] off:', err && err.message);
-        SC = null; root.classList.add('static-book', 'static-bg'); ['three', 'book', 'scene', 'tune'].forEach(done); refreshLayout();
+        SC = null; root.classList.remove('wait3d'); root.classList.add('static-book', 'static-bg'); ['three', 'book', 'scene', 'tune'].forEach(done); refreshLayout();
       });
   }
   var offsetHeroTop = 0, heroRangeC = 1;
   function measureHero() { offsetHeroTop = offsetTop(hero); heroRangeC = heroRange(); }
-  if (USE3D) start3D();
+  // 3D starts after the loading screen has gone (its set-up can keep a slow computer busy for a moment);
+  // until then the hero shows the closed CSS book cover (class wait3d)
+  var started3D = false;
+  function begin3D() { if (started3D || !USE3D) return; started3D = true; start3D(); }
+  if (USE3D) { root.classList.add('wait3d'); begin3D(); }   // the 3D book is built behind the loading screen
 
   /* ======================================================================
      SERVICES — tilt + glare, details drawer
      ====================================================================== */
   var drawer = $('#drawer'), drawerBody = $('#drawerBody'), drawerOpener = null, car = null, carDots = [], carIdx = 0;
   function openDrawer(key, opener) {
-    var c = CAT[key], s = (TXT.services.items || {})[key] || {}, arts = ownOf(key).slice(0, 3);
+    var c = CAT[key], s = (TXT.services.items || {})[key] || {}, arts = examplesOf(key).slice(0, 3);
     drawerBody.innerHTML = '<p class="label">' + pad(c.i + 1) + ' · Service</p><h3 id="drawerTitle">' + esc(c.name) + '</h3><p>' + esc(s.value) + '</p>' +
       // related artworks: a swipeable scroll-snap carousel with dots and arrow keys; each opens the case viewer
       '<div class="drawer__car" id="drawerCar" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Examples — use the arrow keys">' + arts.map(function (a, k) { return '<button type="button" class="drawer__slide" data-open="' + a.id + '" data-cursor="View" aria-label="' + esc(a.title) + ' (' + (k + 1) + ' of ' + arts.length + ') — open full screen"><img src="images/thumbs/' + a.id + '.webp" alt="' + esc(a.alt) + '" width="' + a.w + '" height="' + a.h + '" loading="lazy" decoding="async"><span>' + esc(a.title) + '</span></button>'; }).join('') + '</div>' +
@@ -459,7 +464,7 @@
     loadScript('js/tex-svc.js').then(function () {
       var list = $$('.svc--book').map(function (card) {
         var k = card.dataset.cat, b = SVC_BOOKS[k] || {};
-        return { name: 'svc-' + k, section: $('#services'), stage: $('.svc__thumb', card), cover: b.cover, cloth: b.cloth, label: CAT[k].short, pages: ownOf(k).slice(0, 3).map(function (a) { return a.id; }) };
+        return { name: 'svc-' + k, section: $('#services'), stage: $('.svc__thumb', card), cover: b.cover, cloth: b.cloth, label: CAT[k].short, pages: examplesOf(k).slice(0, 3).map(function (a) { return a.id; }) };
       });
       return SC.addMini(list);
     }).then(function (ok) { if (ok && svcWanted) { svc3d = true; root.classList.add('svc3d'); $$('.svc--book.in-view').forEach(function (c) { SC.miniPages('svc-' + c.dataset.cat); }); } }).catch(function (err) { if (window.console) console.info('[3D] service books off:', err && err.message); });
@@ -469,7 +474,7 @@
   else $$('.svc').forEach(function (c) { c.classList.add('in-view'); });
   $$('.svc').forEach(function (card) {
     var name = 'svc-' + card.dataset.cat, timer = 0, pg = 1, r = null, opening = false;
-    var pagesN = Math.max(1, Math.min(3, ownOf(card.dataset.cat).length));
+    var pagesN = Math.max(1, Math.min(3, examplesOf(card.dataset.cat).length));
     function tilt(e) { if (!r) r = $('.svc__thumb', card).getBoundingClientRect(); SC.miniHover(name, true, clamp((e.clientX - r.left) / r.width * 2 - 1, -1, 1), clamp((e.clientY - r.top) / r.height * 2 - 1, -1, 1)); }
     var isBook = card.classList.contains('svc--book');
     card.addEventListener('pointerenter', function (e) {
@@ -497,7 +502,7 @@
   var flipT = 0;
   function isShown(t) { return !t.classList.contains("is-hidden"); }
   function setFilter(cat, fromHash) {
-    if (cat !== 'all' && !CAT[cat]) cat = 'all';
+    if (cat !== 'all' && (!CAT[cat] || !artsOf(cat).length)) cat = 'all';   // unknown or empty category: show everything
     var match = function (t) { return cat === 'all' || t.dataset.cat === cat; };
     filterBtns.forEach(function (b) { var on = b.dataset.cat === cat; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); });
     if (!fromHash && history.replaceState) history.replaceState(null, '', cat === 'all' ? '#work' : '#work/' + cat);
@@ -731,10 +736,11 @@
 
   function revealPage() {
     root.classList.add('is-revealed');
-    loader.classList.add('is-done'); setTimeout(function () { loader.hidden = true; }, 800);
+    loader.classList.add('is-done'); setTimeout(function () { loader.hidden = true; }, REDUCE ? 0 : 600);
     if (lenis) lenis.start();
     setupReveals(); refreshLayout(); lastDocH = document.documentElement.scrollHeight;
     performance.mark && performance.mark('wm-interactive');
+    if (USE3D) begin3D();   // normally already started behind the loading screen; this is only a fallback
     var hf = hashFilter(); if (hf) setFilter(hf, true);
     if (location.hash && location.hash.length > 1) { var t = document.getElementById(hf ? 'work' : location.hash.slice(1)); if (t) setTimeout(function () { scrollToY(anchorY(t), true); }, 60); }
   }

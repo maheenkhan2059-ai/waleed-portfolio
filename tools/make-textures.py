@@ -13,7 +13,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # cover art first, then the pages (no trucks or maps: children's book spreads and comics first)
-BOOK = ['children-06', 'children-01', 'comic-01', 'children-02', 'character-06', 'children-05', 'comic-05', 'children-03', 'cover-01', 'children-04']
+BOOK = ['children-06', 'children-01', 'comic-01', 'children-02', 'character-06', 'children-05', 'comic-05', 'children-03', 'sketch-04', 'children-04']
 # Part 1 (needed for the first view: cover + first two spreads) loads with the page.
 # Part 2 (later pages) is downloaded after start-up and painted in idle time.
 FIRST = 3
@@ -36,5 +36,5 @@ write('tex-book-2.js', BOOK[FIRST:], 760)
 
 # Service-card book (only "Book Cover Design" is drawn as a 3D book now): its cover + up to 3 of its artworks, small (400 px).
 # Keep in step with SVC_BOOKS in js/main.js.
-SVC = ['cover-01']
+SVC = ['children-06']   # Book Cover Design card: cover art + its page (Waleed's own artwork)
 write('tex-svc.js', SVC, 400, 70, 'WM_TEX_SVC')   # own namespace: never replaces the big hero-book pages

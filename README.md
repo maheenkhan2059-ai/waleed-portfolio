@@ -29,7 +29,7 @@ The sections are, in order: **Home → About → Services → Selected work → 
 ### Automatic modes
 
 - **Quality tiers:**
-  - A 1-second benchmark behind the preloader picks *high*, *medium* or *low*.
+  - A loading screen (name, subtitle, thin gold line) shows for at most ~1.5 s. Right after it, a 1-second benchmark picks *high*, *medium* or *low* while the 3D book fades in.
   - If the frame rate stays under 45 fps for 2 s, quality steps down one tier. It never flickers back up.
   - Typing `__wm.tier()` in the browser console shows the current tier.
 - **Computer without a graphics card:** painted background, no glass blur, only the hero book in 3D.
